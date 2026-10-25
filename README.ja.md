@@ -4,6 +4,12 @@
 ユーザー名・パスワード・ポートはすべてランダム生成し、ufw など のファイアウォール開放まで自動で行い、
 接続情報を `/root/proxy.json` に書き出します。対話操作は一切ありません。
 
+## クイックスタート
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)
+```
+
 ## 導入されるもの
 
 | プロトコル | 実装 | 備考 |
@@ -34,17 +40,37 @@
 
 ## インストール
 
-スクリプトをサーバーへコピーして実行します。
+サーバー上で root として 1 コマンド実行します。
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)
+```
+
+オプションはプロセス置換の後ろに付けます。
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh) --test
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh) --force
+```
+
+bash が無い / プロセス置換が使えない場合（最小構成の Alpine）:
+
+```bash
+sh -c "$(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)"
+```
+
+ファイルをサーバーに置いて実行したい場合:
 
 ```bash
 scp proxy.sh root@YOUR_SERVER:/root/proxy.sh
-ssh root@YOUR_SERVER 'chmod +x /root/proxy.sh && sh /root/proxy.sh'
+ssh root@YOUR_SERVER 'sh /root/proxy.sh'
 ```
 
-手元から 1 コマンドで流し込む場合:
+なお 1 コマンド版はスクリプト自身を保存しません。再実行用にローカルへ置く場合:
 
 ```bash
-ssh root@YOUR_SERVER 'sh -s' < proxy.sh
+curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh -o /root/proxy.sh
+sh /root/proxy.sh
 ```
 
 完了時に JSON が表示され、同じ内容が次に保存されます（パーミッション 600）。

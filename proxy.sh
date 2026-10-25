@@ -25,6 +25,10 @@ done
 log() { printf '[proxy.sh] %s\n' "$*"; }
 die() { printf '[proxy.sh] ERROR: %s\n' "$*" >&2; exit 1; }
 
+if [ "$(id -u)" -ne 0 ]; then
+    die "must run as root (try: sudo bash <(curl -Ls <url>))"
+fi
+
 # ---------- randomness ----------
 rand_hex() {
     _n="$1"
@@ -339,8 +343,9 @@ SSHD_CONF_D="/etc/ssh/sshd_config.d"
 BACKUP="/etc/ssh/sshd_config.pre-proxy.sh"
 [ -f "$BACKUP" ] || cp "$SSHD_CONF" "$BACKUP"
 
-grep -rqiE '^[[:space:]]*PasswordAuthentication[[:space:]]+no' "$SSHD_CONF" "$SSHD_CONF_D" 2>/dev/null && \
+if grep -rqiE '^[[:space:]]*PasswordAuthentication[[:space:]]+no' "$SSHD_CONF" "$SSHD_CONF_D" 2>/dev/null; then
     log "note: PasswordAuthentication is globally disabled; the Match block re-enables it for $SSH_USER"
+fi
 
 if grep -q 'proxy.sh managed block' "$SSHD_CONF" 2>/dev/null; then
     awk '

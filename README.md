@@ -6,6 +6,12 @@ firewall, and writes all connection details to `/root/proxy.json`.
 
 No interaction required. Run it once and you are done.
 
+## Quick start
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)
+```
+
 ## What it installs
 
 | Protocol | Implementation | Notes |
@@ -38,17 +44,38 @@ Architectures: `x86_64`, `aarch64`, `armv7`.
 
 ## Install
 
-Copy the script to the server and run it:
+One command, run as root on the server:
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)
+```
+
+Options go after the process substitution:
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh) --test
+bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh) --force
+```
+
+No bash / no process substitution (minimal Alpine):
+
+```bash
+sh -c "$(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)"
+```
+
+Prefer to keep the file on the server? Copy it and run it directly:
 
 ```bash
 scp proxy.sh root@YOUR_SERVER:/root/proxy.sh
-ssh root@YOUR_SERVER 'chmod +x /root/proxy.sh && sh /root/proxy.sh'
+ssh root@YOUR_SERVER 'sh /root/proxy.sh'
 ```
 
-Or as a single command from another machine:
+Note: the one-liner does not save itself to disk. If you want a local copy for re-runs,
+install it once:
 
 ```bash
-ssh root@YOUR_SERVER 'sh -s' < proxy.sh
+curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh -o /root/proxy.sh
+sh /root/proxy.sh
 ```
 
 At the end the script prints a JSON block and stores the same content in:
