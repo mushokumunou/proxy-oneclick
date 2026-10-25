@@ -63,6 +63,13 @@ No bash / no process substitution (minimal Alpine):
 sh -c "$(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)"
 ```
 
+> The one-liner needs **bash** as the shell that parses it. If your login shell is
+> `/bin/sh` (default on Alpine root), open `bash` first, or wrap the command:
+>
+> ```bash
+> bash -c 'bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)'
+> ```
+
 Prefer to keep the file on the server? Copy it and run it directly:
 
 ```bash

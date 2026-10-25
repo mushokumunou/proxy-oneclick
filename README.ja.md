@@ -59,6 +59,13 @@ bash が無い / プロセス置換が使えない場合（最小構成の Alpin
 sh -c "$(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)"
 ```
 
+> この 1 行コマンドは、**bash** がその行を解釈する必要があります。ログインシェルが
+> `/bin/sh`（Alpine の root 既定）の場合は、先に `bash` を起動するか、次の形で実行してください。
+>
+> ```bash
+> bash -c 'bash <(curl -Ls https://raw.githubusercontent.com/mushokumunou/proxy-oneclick/main/proxy.sh)'
+> ```
+
 ファイルをサーバーに置いて実行したい場合:
 
 ```bash
